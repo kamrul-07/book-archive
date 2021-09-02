@@ -1,44 +1,22 @@
+// input field 
 document.getElementById('result').addEventListener('click',function (){
     const search =document.getElementById('search-Field');
     const searchText =search.value;
-    search.value="";
+    
     
     const url=`https://openlibrary.org/search.json?q=${searchText}`
     fetch(url)
     .then (res=> res.json())
     .then (data => displayResultBook(data.docs));
     
-})
-document.getElementById('result').addEventListener('click',function (){
-    const search =document.getElementById('search-Field');
-    const searchText =search.value;
-    search.value="";
-    
-    const url=`https://openlibrary.org/search.json?q=${searchText}`
-    fetch(url)
-    .then (res=> res.json())
-    .then (data => displayRes(data));
-    
-})
+});
 
-
-const displayRes = result =>{
-    console.log(result.num_found);
-    console.log(result.docs.length)
-//     document.getElementById('resultNumber').innerText=`${result.numFound }
-//     ${result.docs.length}`
-}
-
-
- 
-
-
-
+// detailes
 const displayResultBook = books =>{
     const searchResult = document.getElementById('search-result');
     const error =document.getElementById('error')
     searchResult.textContent='';
-    
+    // error message 
     if(books.length === 0){
         error.innerText="No result found"
        
@@ -46,10 +24,11 @@ const displayResultBook = books =>{
     else{
         error.innerText="";
     }
-
+// using forEach loop
     books.forEach(book => {
         const div = document.createElement('div')
         div.classList.add('col')
+        // add a card for detailes 
         div.innerHTML=`
         <div class="card mt-4">
             <img   src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" class="card-img-top img-thumbnail" alt="...">
@@ -71,5 +50,27 @@ const displayResultBook = books =>{
         searchResult.appendChild(div);
     });
     
+    
+}
+
+// found the number of books 
+
+document.getElementById('result').addEventListener('click',function (){
+    const search =document.getElementById('search-Field');
+    const searchText =search.value;
+    
+    const url=`https://openlibrary.org/search.json?q=${searchText}`
+    fetch(url)
+    .then (res=> res.json())
+    .then (data => displayRes(data));
+    search.value="";
+});
+
+
+const displayRes = result =>{
+    // console.log(result);
+    // console.log(result.numFound);
+    // console.log(result.docs.length)
+    document.getElementById('resultNumber').innerText=`${result.docs.length} out of ${result.numFound} result displayed`
     
 }
